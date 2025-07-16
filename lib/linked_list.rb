@@ -22,8 +22,8 @@ class LinkedList
     end
   end
 
-  def append(value)
-    node = Node.new(value)
+  def append(key, value)
+    node = Node.new(key, value)
     if empty?
       @head = node
     else
