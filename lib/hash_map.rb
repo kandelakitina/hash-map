@@ -9,7 +9,7 @@ class HashMap
   def initialize(capacity = 16, load_factor = 0.75)
     @capacity = capacity
     @load_factor = load_factor
-    @buckets = capacity
+    @buckets = Array.from(capacity) { [] }
   end
 
   def hash(key)
@@ -20,4 +20,10 @@ class HashMap
 
     hash_code
   end
+
+  def make_index(hash)
+    hash % @buckets.length
+  end
+
+  def set(key, value); end
 end
