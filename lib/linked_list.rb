@@ -2,6 +2,7 @@
 
 require_relative 'node'
 
+# Linked-list class with many methods
 class LinkedList
   include Enumerable
 
