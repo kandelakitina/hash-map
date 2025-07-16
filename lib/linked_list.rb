@@ -22,6 +22,15 @@ class LinkedList
     end
   end
 
+  def insert_or_update(node)
+    existing_node = find(node.key)
+    if existing_node
+      existing_node.value = node.value
+    else
+      append(node)
+    end
+  end
+
   def append(key, value)
     node = Node.new(key, value)
     if empty?
@@ -49,12 +58,12 @@ class LinkedList
   # #   @size -= 1
   # end
 
-  def find(value = nil, &block)
+  def find(key = nil, &block)
     if block_given?
       super(&block) # fallback to Enumerable#find
     else
-      each_with_index do |node, index|
-        return index if node.value == value
+      each do |node|
+        return node if node.key == key
       end
       nil
     end
@@ -100,8 +109,6 @@ class LinkedList
   #   nodes = map { |node| "( #{node.value} )" }
   #   "#{nodes.join(' -> ')} -> nil"
   # end
-
-  private
 
   def empty?
     @head.nil?
