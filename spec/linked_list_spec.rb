@@ -87,7 +87,7 @@ RSpec.describe LinkedList do
     end
 
     it 'works with block form' do
-      expect(list.find_index { |n| n.key == 10 }).to eq(0)
+      expect(list.find_index { |n| n.key == :a }).to eq(0)
     end
   end
 

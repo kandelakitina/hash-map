@@ -48,9 +48,13 @@ class LinkedList
     nil
   end
 
-  def find_index(key)
+  def find_index(key = nil)
     each_with_index do |node, index|
-      return index if node.key == key
+      if block_given?
+        return index if yield(node)
+      elsif node.key == key
+        return index
+      end
     end
     nil
   end
@@ -78,6 +82,12 @@ class LinkedList
     current_node = prev_node.next_node
     prev_node.next_node = current_node.next_node
     @tail = prev_node if current_node == @tail
+    @size -= 1
+  end
+
+  def remove_head
+    @head = @head.next_node
+    @tail = nil if @head.nil?
     @size -= 1
   end
 
