@@ -72,7 +72,6 @@ class LinkedList
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def remove(node)
     return nil if empty? || node.nil?
 
@@ -98,7 +97,6 @@ class LinkedList
 
     nil
   end
-  # rubocop:enable Metrics/MethodLength
 
   def remove_at(index)
     node = at(index)
@@ -130,5 +128,10 @@ class LinkedList
 
   def empty?
     @head.nil?
+  end
+
+  def to_s
+    nodes = map { |node| "( #{node.key}: #{node.value} )" }
+    "#{nodes.join(' -> ')} -> nil"
   end
 end
