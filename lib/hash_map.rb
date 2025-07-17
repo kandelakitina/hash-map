@@ -20,6 +20,7 @@ class HashMap
     index = hash(key)
     target_bucket = @buckets[index]
     target_bucket.insert_or_update(key, value)
+    update_capacity
   end
 
   def get(key)
@@ -68,5 +69,28 @@ class HashMap
     key.each_char { |char| hash_code = (prime_number * hash_code) + char.ord }
 
     hash_code % @buckets.length
+  end
+
+  def update_capacity
+    return unless length > (@capacity * @load_factor)
+
+    rehash(@capacity * 2)
+  end
+
+  def rehash(new_capacity)
+    old_buckets = @buckets
+    @capacity = new_capacity
+    @buckets = Array.new(@capacity) { LinkedList.new }
+
+    old_buckets.each do |bucket|
+      append(bucket)
+    end
+  end
+
+  def append(bucket)
+    bucket.each do |node|
+      index = hash(node.key)
+      @buckets[index].insert_or_update(node.key, node.value)
+    end
   end
 end

@@ -18,8 +18,12 @@ test.set('kite', 'pink')
 test.set('lion', 'golden')
 
 puts test
-p test.length
+puts test.length
 
 test.set('apple', 'green')
 
+puts test
+puts test.length
+
+test.set('moon', 'silver')
 puts test
