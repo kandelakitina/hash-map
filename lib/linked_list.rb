@@ -2,7 +2,6 @@
 
 require_relative 'node'
 
-# Linked-list class with many methods
 class LinkedList
   include Enumerable
 
@@ -49,21 +48,12 @@ class LinkedList
     nil
   end
 
-  # def prepend(value)
-  #   node = Node.new(value, @head)
-  #   @tail = node if empty?
-  #   @head = node
-  #   @size += 1
-  # end
-
-  # def pop
-  #   return nil if empty?
-  # #   return clear_list if single_node?
-
-  # #   @tail = at(-2)
-  # #   @tail.next_node = nil
-  # #   @size -= 1
-  # end
+  def find_index(key)
+    each_with_index do |node, index|
+      return index if node.key == key
+    end
+    nil
+  end
 
   def contains?(item)
     !!find_by_key(item)
@@ -78,16 +68,6 @@ class LinkedList
     end
   end
 
-  # def insert_at(value, index)
-  #   return prepend(value) if index.zero?
-  #   return append(value) if index == @size
-
-  #   prev_node = at(index - 1)
-  #   current_node = prev_node.next_node
-  #   prev_node.next_node = Node.new(value, current_node)
-  #   @size += 1
-  # end
-
   def remove_at(index)
     return nil if empty?
     return remove_head if index.zero?
@@ -101,27 +81,7 @@ class LinkedList
     @size -= 1
   end
 
-  # def to_s
-  #   nodes = map { |node| "( #{node.value} )" }
-  #   "#{nodes.join(' -> ')} -> nil"
-  # end
-
   def empty?
     @head.nil?
   end
-
-  # def single_node?
-  #   @head == @tail
-  # end
-
-  # def clear_list
-  #   @head = nil
-  #   @tail = nil
-  #   @size = 0
-  # end
-
-  # def remove_head
-  #   @head = @head.next_node
-  #   @tail = nil if @head.nil?
-  # end
 end
