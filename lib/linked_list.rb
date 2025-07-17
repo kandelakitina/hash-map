@@ -22,12 +22,12 @@ class LinkedList
     end
   end
 
-  def insert_or_update(node)
-    existing_node = find(node.key)
+  def insert_or_update(key, value)
+    existing_node = find(key)
     if existing_node
-      existing_node.value = node.value
+      existing_node.value = value
     else
-      append(node)
+      append(key, value)
     end
   end
 
@@ -40,6 +40,17 @@ class LinkedList
     end
     @tail = node
     @size += 1
+  end
+
+  def find(key, &block)
+    if block_given?
+      super(&block) # fallback to Enumerable#find
+    else
+      each do |node|
+        return node if node.key == key
+      end
+      nil
+    end
   end
 
   # def prepend(value)
@@ -58,16 +69,6 @@ class LinkedList
   # #   @size -= 1
   # end
 
-  def find(key = nil, &block)
-    if block_given?
-      super(&block) # fallback to Enumerable#find
-    else
-      each do |node|
-        return node if node.key == key
-      end
-      nil
-    end
-  end
 
   def contains?(item)
     !!find(item)

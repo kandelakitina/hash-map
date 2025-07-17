@@ -1,7 +1,7 @@
 require 'rspec'
 
 # Assuming HashMap is defined somewhere and included in the loadpath
-require_relative '../lib/hash_map' 
+require_relative '../lib/hash_map'
 
 RSpec.describe HashMap do
   let(:hash_map) { HashMap.new }
@@ -21,7 +21,7 @@ RSpec.describe HashMap do
       expect(hash_map.get('key1')).to eq('value1')
     end
     it 'overwrites existing key' do
-      hash_map.set('key2', 'value2')
+      hash_map.set('key2', 'value2')
       hash_map.set('key2', 'new_value')
       expect(hash_map.get('key2')).to eq('new_value')
     end
@@ -79,7 +79,7 @@ RSpec.describe HashMap do
       hash_map.set('k1', 'v1')
       hash_map.set('k2', 'v2')
       keys = hash_map.keys
-      expect(keys).to include('k1','k2')
+      expect(keys).to include('k1', 'k2')
     end
   end
 
@@ -87,7 +87,7 @@ RSpec.describe HashMap do
     it 'returns all values' do
       hash_map.set('k1', 'v1')
       hash_map.set('k2', 'v2')
-      expect(hash_map.values).to include('v1','v2')
+      expect(hash_map.values).to include('v1', 'v2')
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe HashMap do
       hash_map.set('k1', 'v1')
       hash_map.set('k2', 'v2')
       entries = hash_map.entries
-      expect(entries).to include(['k1','v1'], ['k2','v2'])
+      expect(entries).to include(%w[k1 v1], %w[k2 v2])
     end
   end
 
@@ -107,5 +107,4 @@ RSpec.describe HashMap do
       # You might need to temporarily set load_factor or capacity for testing
     end
   end
-
 end

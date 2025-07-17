@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'linked_list'
+require 'pry'
 
 # A class to defind hash maps
 class HashMap
@@ -17,14 +18,15 @@ class HashMap
 
   def set(key, value)
     index = hash(key)
-    node = Node.new(key, value)
-    @buckets[index].insert_or_update(node)
+    target_bucket = @buckets[index]
+    target_bucket.insert_or_update(key, value)
   end
 
   def get(key)
     index = hash(key)
-    node = @buckets[index]&.find { |n| n.key == key }
-    node&.value
+    target_bucket = @buckets[index]
+    node = target_bucket.find(key)
+    node.value
   end
 
   private
