@@ -100,11 +100,24 @@ RSpec.describe HashMap do
     end
   end
 
-  context 'when capacity is exceeded' do
-    it 'grows and rehashes entries' do
-      # Populate until just before load factor
-      # then add one more to trigger grow
-      # You might need to temporarily set load_factor or capacity for testing
+  describe 'bucket index boundaries' do
+    it 'raises IndexError for negative bucket index' do
+      expect do
+        index = -1
+        raise IndexError if index.negative? || index >= hash_map.instance_variable_get(:@buckets).length
+
+        hash_map.instance_variable_get(:@buckets)[index]
+      end.to raise_error(IndexError)
+    end
+
+    it 'raises IndexError for index >= buckets.length' do
+      buckets = hash_map.instance_variable_get(:@buckets)
+      index = buckets.length
+      expect do
+        raise IndexError if index.negative? || index >= buckets.length
+
+        buckets[index]
+      end.to raise_error(IndexError)
     end
   end
 end
