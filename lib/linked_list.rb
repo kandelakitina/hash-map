@@ -48,10 +48,6 @@ class LinkedList
     end
     nil
   end
-      end
-      nil
-    end
-  end
 
   # def prepend(value)
   #   node = Node.new(value, @head)
