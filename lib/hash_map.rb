@@ -35,6 +35,26 @@ class HashMap
     @buckets[hash(key)].remove_by_key(key)
   end
 
+  def length
+    @buckets.reduce(0) { |sum, bucket| sum + bucket.size }
+  end
+
+  def clear
+    @buckets = Array.new(capacity) { LinkedList.new }
+  end
+
+  def keys
+    @buckets.flat_map(&:keys)
+  end
+
+  def values
+    @buckets.flat_map(&:values)
+  end
+
+  def entries
+    @buckets.map(&:entries)
+  end
+
   private
 
   def hash(key)

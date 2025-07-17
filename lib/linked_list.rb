@@ -110,6 +110,18 @@ class LinkedList
     remove(node)
   end
 
+  def keys
+    map(&:key)
+  end
+
+  def values
+    map(&:value)
+  end
+
+  def entries
+    flat_map { |item| [item.key, item.value] }
+  end
+
   def remove_head
     @head = @head.next_node
     @tail = nil if @head.nil?
