@@ -83,11 +83,11 @@ class HashMap
     @buckets = Array.new(@capacity) { LinkedList.new }
 
     old_buckets.each do |bucket|
-      append(bucket)
+      rehash_bucket(bucket)
     end
   end
 
-  def append(bucket)
+  def rehash_bucket(bucket)
     bucket.each do |node|
       index = hash(node.key)
       @buckets[index].insert_or_update(node.key, node.value)
