@@ -2,9 +2,24 @@
 
 require_relative 'lib/hash_map'
 
-hash_map = HashMap.new
-hash_map.set('k1', 'v1')
-hash_map.set('k2', 'v2')
+test = HashMap.new
 
-keys = hash_map.keys
-p keys
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('lion', 'golden')
+
+puts test
+p test.length
+
+test.set('apple', 'green')
+
+puts test

@@ -55,9 +55,9 @@ class HashMap
     @buckets.map(&:entries)
   end
 
-def to_s
-  @buckets.map(&:to_s).join("\n")
-end
+  def to_s
+    @buckets.map(&:to_s).join("\n")
+  end
 
   private
 
