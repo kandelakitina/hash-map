@@ -32,7 +32,7 @@ class HashMap
   end
 
   def remove(key)
-    @buckets[hash(key)]
+    @buckets[hash(key)].remove_by_key(key)
   end
 
   private

@@ -72,17 +72,42 @@ class LinkedList
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
+  def remove(node)
+    return nil if empty? || node.nil?
+
+    current_node = @head
+    prev_node = nil
+
+    if node == @head
+      value = @head.value
+      remove_head
+      return value
+    end
+
+    while current_node
+      if current_node == node
+        prev_node.next_node = current_node.next_node
+        @tail = prev_node if current_node == @tail
+        @size -= 1
+        return current_node.value
+      end
+      prev_node = current_node
+      current_node = current_node.next_node
+    end
+
+    nil
+  end
+  # rubocop:enable Metrics/MethodLength
+
   def remove_at(index)
-    return nil if empty?
-    return remove_head if index.zero?
+    node = at(index)
+    remove(node)
+  end
 
-    prev_node = at(index - 1)
-    return nil if prev_node.nil? || prev_node.next_node.nil?
-
-    current_node = prev_node.next_node
-    prev_node.next_node = current_node.next_node
-    @tail = prev_node if current_node == @tail
-    @size -= 1
+  def remove_by_key(key)
+    node = find_by_key(key)
+    remove(node)
   end
 
   def remove_head
