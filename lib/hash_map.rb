@@ -23,10 +23,8 @@ class HashMap
   end
 
   def get(key)
-    index = hash(key)
-    target_bucket = @buckets[index]
-    node = target_bucket.find(key)
-    node.value
+    node = @buckets[hash(key)].find(key)
+    node&.value
   end
 
   private
