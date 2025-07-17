@@ -53,7 +53,7 @@ class HashMap
   end
 
   def entries
-    @buckets.map(&:entries)
+    @buckets.flat_map(&:entries)
   end
 
   def to_s

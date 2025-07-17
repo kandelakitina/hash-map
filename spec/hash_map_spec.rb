@@ -96,8 +96,7 @@ RSpec.describe HashMap do
     it 'returns all key-value pairs' do
       map.set('a', 'x')
       map.set('b', 'y')
-      flattened = map.entries.flatten(1)
-      expect(flattened).to include(['a', 'x'], ['b', 'y'])
+      expect(map.entries).to include(%w[a x], %w[b y])
     end
   end
 
@@ -113,7 +112,7 @@ RSpec.describe HashMap do
   describe '#update_capacity' do
     it 'does not grow when load factor is not exceeded' do
       map.set('a', 1)
-      expect { map.send(:update_capacity) }.not_to change { map.capacity }
+      expect { map.send(:update_capacity) }.not_to(change { map.capacity })
     end
 
     it 'doubles capacity when load factor is exceeded' do
