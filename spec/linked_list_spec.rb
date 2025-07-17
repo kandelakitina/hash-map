@@ -158,10 +158,8 @@ RSpec.describe LinkedList do
     it 'yields all nodes in order' do
       list.append(:a, 1)
       list.append(:b, 2)
-
       keys = []
       list.each { |n| keys << n.key }
-
       expect(keys).to eq(%i[a b])
     end
   end
@@ -174,6 +172,59 @@ RSpec.describe LinkedList do
     it 'returns false if list has nodes' do
       list.append(:x, 5)
       expect(list.empty?).to be false
+    end
+  end
+
+  # Additional edge case tests
+
+  describe '#remove_head' do
+    it 'removes head when list has multiple nodes' do
+      list.append(:a, 1)
+      list.append(:b, 2)
+      list.remove_head
+      expect(list.head.key).to eq(:b)
+      expect(list.size).to eq(1)
+    end
+
+    it 'removes head when list has only one node' do
+      list.append(:a, 1)
+      list.remove_head
+      expect(list.head).to be_nil
+      expect(list.tail).to be_nil
+      expect(list.size).to eq(0)
+    end
+  end
+
+  describe '#remove_by_key' do
+    it 'removes existing node by key' do
+      list.append(:a, 1)
+      list.append(:b, 2)
+      list.remove_by_key(:a)
+      expect(list.head.key).to eq(:b)
+      expect(list.size).to eq(1)
+    end
+
+    it 'returns nil when key not found' do
+      list.append(:a, 1)
+      expect(list.remove_by_key(:notfound)).to be_nil
+      expect(list.size).to eq(1)
+    end
+  end
+
+  describe '#remove' do
+    it 'returns nil if node not in list' do
+      list.append(:a, 1)
+      fake_node = Node.new(:not, 'inlist')
+      expect(list.remove(fake_node)).to be_nil
+    end
+  end
+
+  describe '#insert_or_update' do
+    it 'updates existing key among multiple nodes' do
+      list.append(:x, 1)
+      list.append(:y, 2)
+      list.insert_or_update(:y, 99)
+      expect(list.find_by_key(:y).value).to eq(99)
     end
   end
 end
