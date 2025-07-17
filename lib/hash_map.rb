@@ -23,12 +23,16 @@ class HashMap
   end
 
   def get(key)
-    node = @buckets[hash(key)].find(key)
+    node = @buckets[hash(key)].find_by_key(key)
     node&.value
   end
 
   def has?(key)
     @buckets.any? { |bucket| bucket.contains?(key) }
+  end
+
+  def remove(key)
+    @buckets[hash(key)]
   end
 
   private

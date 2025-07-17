@@ -23,7 +23,7 @@ class LinkedList
   end
 
   def insert_or_update(key, value)
-    existing_node = find(key)
+    existing_node = find_by_key(key)
     if existing_node
       existing_node.value = value
     else
@@ -42,12 +42,12 @@ class LinkedList
     @size += 1
   end
 
-  def find(key, &block)
-    if block_given?
-      super(&block) # fallback to Enumerable#find
-    else
-      each do |node|
-        return node if node.key == key
+  def find_by_key(key)
+    each do |node|
+      return node if node.key == key
+    end
+    nil
+  end
       end
       nil
     end
@@ -70,7 +70,7 @@ class LinkedList
   # end
 
   def contains?(item)
-    !!find(item)
+    !!find_by_key(item)
   end
 
   def at(index)
