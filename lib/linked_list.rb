@@ -117,7 +117,7 @@ class LinkedList
   end
 
   def entries
-    flat_map { |item| [item.key, item.value] }
+    map { |node| [node.key, node.value] }
   end
 
   def remove_head
