@@ -27,6 +27,10 @@ class HashMap
     node&.value
   end
 
+  def has?(key)
+    @buckets.any? { |bucket| bucket.contains?(key) }
+  end
+
   private
 
   def hash(key)
