@@ -175,7 +175,23 @@ RSpec.describe LinkedList do
     end
   end
 
-  # Additional edge case tests
+  # Additional tests for #entries method
+
+    describe '#entries' do
+      it 'returns an array of all entries as key-value pairs' do
+        list.append(:a, 1)
+        list.append(:b, 2)
+        list.append(:c, 3)
+        entries = list.entries
+        expect(entries).to be_an(Array)
+        expect(entries.size).to eq(3)
+        expect(entries).to include([:a, 1], [:b, 2], [:c, 3])
+      end
+
+      it 'returns an empty array when list is empty' do
+        expect(list.entries).to eq([])
+      end
+    end
 
   describe '#remove_head' do
     it 'removes head when list has multiple nodes' do
