@@ -69,19 +69,18 @@ class LinkedList
   # #   @size -= 1
   # end
 
-
   def contains?(item)
     !!find(item)
   end
 
-  # def at(index)
-  #   index = @size + index if index.negative?
-  #   return nil if index.negative? || index >= @size || empty?
+  def at(index)
+    index = @size + index if index.negative?
+    return nil if index.negative? || index >= @size || empty?
 
-  #   each_with_index do |node, i|
-  #     return node if i == index
-  #   end
-  # end
+    each_with_index do |node, i|
+      return node if i == index
+    end
+  end
 
   # def insert_at(value, index)
   #   return prepend(value) if index.zero?
@@ -93,18 +92,18 @@ class LinkedList
   #   @size += 1
   # end
 
-  # def remove_at(index)
-  #   return nil if empty?
-  # #   return remove_head if index.zero?
+  def remove_at(index)
+    return nil if empty?
+    return remove_head if index.zero?
 
-  # #   prev_node = at(index - 1)
-  # #   return nil if prev_node.nil? || prev_node.next_node.nil?
+    prev_node = at(index - 1)
+    return nil if prev_node.nil? || prev_node.next_node.nil?
 
-  #   current_node = prev_node.next_node
-  #   prev_node.next_node = current_node.next_node
-  #   @tail = prev_node if current_node == @tail
-  #   @size -= 1
-  # end
+    current_node = prev_node.next_node
+    prev_node.next_node = current_node.next_node
+    @tail = prev_node if current_node == @tail
+    @size -= 1
+  end
 
   # def to_s
   #   nodes = map { |node| "( #{node.value} )" }
