@@ -8,8 +8,8 @@ class HashMap
   attr_reader :load_factor, :capacity
 
   def initialize(capacity = 16, load_factor = 0.75)
-    # raise ArgumentError, 'Capacity must be positive' unless capacity.positive?
-    # raise ArgumentError, 'load_factor must be positive' unless load_factor.positive?
+    raise ArgumentError, 'Capacity must be positive' unless capacity.positive?
+    raise ArgumentError, 'load_factor must be positive' unless load_factor.positive?
 
     @capacity = capacity
     @load_factor = load_factor
@@ -17,9 +17,7 @@ class HashMap
   end
 
   def set(key, value)
-    index = hash(key)
-    target_bucket = @buckets[index]
-    target_bucket.insert_or_update(key, value)
+    @buckets[hash(key)].insert_or_update(key, value)
     update_capacity
   end
 
@@ -41,7 +39,7 @@ class HashMap
   end
 
   def clear
-    @buckets = Array.new(capacity) { LinkedList.new }
+    @buckets = Array.new(@capacity) { LinkedList.new }
   end
 
   def keys
@@ -80,11 +78,9 @@ class HashMap
   def rehash(new_capacity)
     old_buckets = @buckets
     @capacity = new_capacity
-    @buckets = Array.new(@capacity) { LinkedList.new }
+    clear
 
-    old_buckets.each do |bucket|
-      rehash_bucket(bucket)
-    end
+    old_buckets.each { |bucket| rehash_bucket(bucket) }
   end
 
   def rehash_bucket(bucket)
