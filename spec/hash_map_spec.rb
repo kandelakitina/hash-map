@@ -2,8 +2,6 @@
 
 require 'rspec'
 require_relative '../lib/hash_map'
-require_relative '../lib/linked_list'
-require_relative '../lib/node'
 
 RSpec.describe HashMap do
   let(:initial_capacity) { 4 }
