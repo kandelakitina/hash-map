@@ -21,6 +21,17 @@ class LinkedList
     end
   end
 
+  def append(key, value)
+    node = Node.new(key, value)
+    if @head.nil?
+      @head = node
+    else
+      @tail.next_node = node
+    end
+    @tail = node
+    @size += 1
+  end
+
   def insert_or_update(key, value)
     existing_node = find_by_key(key)
     if existing_node
@@ -28,17 +39,6 @@ class LinkedList
     else
       append(key, value)
     end
-  end
-
-  def append(key, value)
-    node = Node.new(key, value)
-    if empty?
-      @head = node
-    else
-      @tail.next_node = node
-    end
-    @tail = node
-    @size += 1
   end
 
   def find_by_key(key)
@@ -65,15 +65,51 @@ class LinkedList
 
   def at(index)
     index = @size + index if index.negative?
-    return nil if index.negative? || index >= @size || empty?
+    return nil if index.negative? || index >= @size || @head.nil?
 
     each_with_index do |node, i|
       return node if i == index
     end
   end
 
+  def remove_at(index)
+    node = at(index)
+    remove(node)
+  end
+
+  def remove_by_key(key)
+    node = find_by_key(key)
+    remove(node)
+  end
+
+  def entries
+    map { |node| [node.key, node.value] }
+  end
+
+  def keys
+    map(&:key)
+  end
+
+  def values
+    map(&:value)
+  end
+
+  def to_s
+    nodes = map { |node| "( #{node.key}: #{node.value} )" }
+    "#{nodes.join(' -> ')} -> nil"
+  end
+
+  private
+
+  def remove_head
+    @head = @head.next_node
+    @tail = nil if @head.nil?
+    @size -= 1
+  end
+
+  # rubocop:disable Metrics/MethodLength
   def remove(node)
-    return nil if empty? || node.nil?
+    return nil if @head.nil? || node.nil?
 
     current_node = @head
     prev_node = nil
@@ -97,41 +133,5 @@ class LinkedList
 
     nil
   end
-
-  def remove_at(index)
-    node = at(index)
-    remove(node)
-  end
-
-  def remove_by_key(key)
-    node = find_by_key(key)
-    remove(node)
-  end
-
-  def keys
-    map(&:key)
-  end
-
-  def values
-    map(&:value)
-  end
-
-  def entries
-    map { |node| [node.key, node.value] }
-  end
-
-  def remove_head
-    @head = @head.next_node
-    @tail = nil if @head.nil?
-    @size -= 1
-  end
-
-  def empty?
-    @head.nil?
-  end
-
-  def to_s
-    nodes = map { |node| "( #{node.key}: #{node.value} )" }
-    "#{nodes.join(' -> ')} -> nil"
-  end
+  # rubocop:enable Metrics/MethodLength
 end

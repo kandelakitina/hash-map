@@ -12,7 +12,17 @@ RSpec.describe LinkedList do
       expect(list.head).to be_nil
       expect(list.tail).to be_nil
       expect(list.size).to eq(0)
-      expect(list.empty?).to be true
+      expect(list.head).to be_nil
+    end
+  end
+
+  describe '#each' do
+    it 'yields all nodes in order' do
+      list.append(:a, 1)
+      list.append(:b, 2)
+      keys = []
+      list.each { |n| keys << n.key }
+      expect(keys).to eq(%i[a b])
     end
   end
 
@@ -47,6 +57,13 @@ RSpec.describe LinkedList do
       list.insert_or_update(:x, 99)
       expect(list.find_by_key(:x).value).to eq(99)
       expect(list.size).to eq(1)
+    end
+
+    it 'updates existing key among multiple nodes' do
+      list.append(:x, 1)
+      list.append(:y, 2)
+      list.insert_or_update(:y, 99)
+      expect(list.find_by_key(:y).value).to eq(99)
     end
   end
 
@@ -154,24 +171,19 @@ RSpec.describe LinkedList do
     end
   end
 
-  describe '#each' do
-    it 'yields all nodes in order' do
+  describe '#remove_by_key' do
+    it 'removes existing node by key' do
       list.append(:a, 1)
       list.append(:b, 2)
-      keys = []
-      list.each { |n| keys << n.key }
-      expect(keys).to eq(%i[a b])
-    end
-  end
-
-  describe '#empty?' do
-    it 'returns true if list is empty' do
-      expect(list.empty?).to be true
+      list.remove_by_key(:a)
+      expect(list.head.key).to eq(:b)
+      expect(list.size).to eq(1)
     end
 
-    it 'returns false if list has nodes' do
-      list.append(:x, 5)
-      expect(list.empty?).to be false
+    it 'returns nil when key not found' do
+      list.append(:a, 1)
+      expect(list.remove_by_key(:notfound)).to be_nil
+      expect(list.size).to eq(1)
     end
   end
 
@@ -191,54 +203,46 @@ RSpec.describe LinkedList do
     end
   end
 
-  describe '#remove_head' do
-    it 'removes head when list has multiple nodes' do
-      list.append(:a, 1)
-      list.append(:b, 2)
-      list.remove_head
-      expect(list.head.key).to eq(:b)
-      expect(list.size).to eq(1)
+  describe '#keys' do
+    it 'returns all keys in order' do
+      list.append(:a, 10)
+      list.append(:b, 20)
+      list.append(:c, 30)
+      expect(list.keys).to eq(%i[a b c])
     end
 
-    it 'removes head when list has only one node' do
-      list.append(:a, 1)
-      list.remove_head
-      expect(list.head).to be_nil
-      expect(list.tail).to be_nil
-      expect(list.size).to eq(0)
+    it 'returns an empty array for empty list' do
+      expect(list.keys).to eq([])
     end
   end
 
-  describe '#remove_by_key' do
-    it 'removes existing node by key' do
-      list.append(:a, 1)
-      list.append(:b, 2)
-      list.remove_by_key(:a)
-      expect(list.head.key).to eq(:b)
-      expect(list.size).to eq(1)
+  describe '#values' do
+    it 'returns all values in order' do
+      list.append(:a, 10)
+      list.append(:b, 20)
+      list.append(:c, 30)
+      expect(list.values).to eq([10, 20, 30])
     end
 
-    it 'returns nil when key not found' do
-      list.append(:a, 1)
-      expect(list.remove_by_key(:notfound)).to be_nil
-      expect(list.size).to eq(1)
+    it 'returns an empty array for empty list' do
+      expect(list.values).to eq([])
     end
   end
 
-  describe '#remove' do
-    it 'returns nil if node not in list' do
-      list.append(:a, 1)
-      fake_node = Node.new(:not, 'inlist')
-      expect(list.remove(fake_node)).to be_nil
+  describe '#to_s' do
+    it 'returns a string representation of the list' do
+      list.append(:a, 10)
+      list.append(:b, 20)
+      expect(list.to_s).to eq('( a: 10 ) -> ( b: 20 ) -> nil')
     end
-  end
 
-  describe '#insert_or_update' do
-    it 'updates existing key among multiple nodes' do
-      list.append(:x, 1)
-      list.append(:y, 2)
-      list.insert_or_update(:y, 99)
-      expect(list.find_by_key(:y).value).to eq(99)
+    it 'returns " -> nil" for an empty list' do
+      expect(list.to_s).to eq(' -> nil')
+    end
+
+    it 'formats string correctly with one node' do
+      list.append(:x, 42)
+      expect(list.to_s).to eq('( x: 42 ) -> nil')
     end
   end
 end
